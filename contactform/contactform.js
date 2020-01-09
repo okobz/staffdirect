@@ -94,12 +94,25 @@ jQuery(document).ready(function($) {
     if( ! action ) {
       action = 'contactform/contactform.php';
     }
+	//load spinner
+	$("#formLoader").show();
+	
+	//disable submit button
+	$("#formSubmit").attr('disabled', true);
+	
+	
     $.ajax({
       type: "POST",
       url: action,
       data: str,
       success: function(msg) {
         // alert(msg);
+		//stop spinner
+		$("#formLoader").hide();
+		
+		//enable submit button
+		$("#formSubmit").removeAttr("disabled");
+		
         if (msg == 'OK') {
           $("#sendmessage").addClass("show");
           $("#errormessage").removeClass("show");

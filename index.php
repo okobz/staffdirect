@@ -37,12 +37,12 @@
       	  <span class="fa fa-bars color-white"></span>
         </button>
         <div class="navbar-logo">
-          <a href="index.html"><img data-0="width:155px;" data-300=" width:120px;" src="img/logo3.png" alt="Staff Direct Logo"></a>
+          <a href="index.php"><img data-0="width:155px;" data-300=" width:120px;" src="img/logo3.png" alt="Staff Direct Logo"></a>
         </div>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav" data-0="margin-top:20px;" data-300="margin-top:5px;">
-          <li class="active"><a href="index.html">Home</a></li>
+          <li class="active"><a href="index.php">Home</a></li>
           <li><a href="#section-about">About</a></li>
           <li><a href="#section-works">Portfolio</a></li>
           <li><a href="#section-contact">Contact</a></li>
@@ -498,7 +498,7 @@
           <div class="cform" id="contact-form">
             <div id="sendmessage">Your message has been sent. Thank you!</div>
             <div id="errormessage"></div>
-            <form action="" method="post" class="contactForm">
+            <form action="controller.php" method="post" class="contactForm">
 
               <div class="field your-name form-group">
                 <input type="text" name="name" placeholder="Your Name" class="cform-text" size="40" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
@@ -517,10 +517,20 @@
                 <textarea name="message" class="cform-textarea" cols="40" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>
                 <div class="validation"></div>
               </div>
-
-              <div class="send-btn">
-                <input type="submit" value="SEND MESSAGE" class="btn btn-theme">
-              </div>
+			  
+			  <input type="hidden" name="action" value="contact-us" />
+				
+				<div id="formLoader" style="text-align:center; display:none">
+					<img src="img/spinner.gif" alt="loading"/>
+				</div>
+					
+				<div>
+					<div class="send-btn">
+						<input type="submit" id="formSubmit" value="SEND MESSAGE" class="btn btn-theme">
+					</div>
+				</div>
+              
+			  
 
             </form>
           </div>
