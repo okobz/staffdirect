@@ -120,7 +120,7 @@ function sendEmailNotice($to,$subject,$message){
 <table align='center' style='width:70%;' cellpadding='10' cellspacing='10'>
    <tr>
 	  <td style='background: #3993ba;background: -moz-linear-gradient(top, #3993ba 0%, #3993ba 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3993ba), color-stop(100%,#3993ba));background: -webkit-linear-gradient(top, #3993ba 0%,#067ead 100%);background: -o-linear-gradient(top, #3993ba 0%,#3993ba 100%);background: -ms-linear-gradient(top, #3993ba 0%,#067ead 100%);background: linear-gradient(top, #067ead 0%,#3993ba 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#067ead', endColorstr='#3993ba',GradientType=0 );color:#FFFFFF;'>	  
-		<img alt='Staff Direct Logo' src='img/logo3.png'> Staff Direct
+		<img src='img/logo2.png'> Staff Direct
 	  </td>
 	</tr>
 	<tr>

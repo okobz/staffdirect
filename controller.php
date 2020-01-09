@@ -36,21 +36,24 @@ if(isset($action))
 	{
 	
 		//first send email to staff direct
-		$to = "ofoefule.c@gmail.com";
+		$to = "ofoefule.c@gmail.com";//staffdirectng@gmail.com
 		$subject = "New Message From Website";
 		$message = "Hello, You have 1 New Message.
+<br/>
 From: $name
+<br/>
 Email: $email
+<br/>
 Subject: $subject
+<br/>
 Message: $message
+<br/>
 		";
 		@sendEmailNotice($to,$subject,$message);
 
 		//next send email to visitor
-		$subject_v = "New Contact Message";
-		$message_v = "Hello
-		$name just sent you a message via the school website:
-		$message";
+		$subject_v = "info@staffdirect.ng";
+		$message_v = "Thank you for contacting us.<br>We would get back to you soon";
 		@sendEmailNotice($email,$subject_v,$message_v);
 		
 		echo "OK";
