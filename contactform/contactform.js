@@ -114,9 +114,12 @@ jQuery(document).ready(function($) {
 		$("#formSubmit").removeAttr("disabled");
 		
         if (msg == 'OK') {
+			$('.contactForm').find("input, textarea").val("");
+			parent.location = "http://staffdirect.ng/index.php?success=true#section-contact"
+			return;
           $("#sendmessage").addClass("show");
           $("#errormessage").removeClass("show");
-          $('.contactForm').find("input, textarea").val("");
+          
         } else {
           $("#sendmessage").removeClass("show");
           $("#errormessage").addClass("show");

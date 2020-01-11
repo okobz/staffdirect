@@ -36,7 +36,7 @@ if(isset($action))
 	{
 	
 		//first send email to staff direct
-		$to = "ofoefule.c@gmail.com";//staffdirectng@gmail.com
+		$to = "staffdirectng@gmail.com";
 		$subject = "New Message From Website";
 		$message = "Hello, You have 1 New Message.
 <br/>
@@ -59,9 +59,49 @@ Message: $message
 		echo "OK";
 		exit;
 	}//end contact us
-       
-
-	   
+	else if($action == "job-application")
+	{
+		//check if cv was uploaded
+		$cv_directory = "";
+		if($_FILES['cv']['name'] != ""){//cv file was uploaded
+			$fileformat = array('doc','pdf');
+			$directory = "uploads/cvs";
+			$upload = uploadFile("cv",$fileformat,$directory);
+			$cv_directory = $upload['picturename'];
+		}
+		
+		//check if picture was uploaded
+		$picture_directory = "";
+		if($_FILES['picture']['name'] != ""){//picture file was uploaded
+			$fileformat = array('jpg','jpeg','png');
+			$directory = "uploads/pictures";
+			$upload = uploadFile("picture",$fileformat,$directory);
+			$picture_directory = $upload['picturename'];
+		}
+		
+		//check if video was uploaded
+		$video_directory = "";
+		if($_FILES['video']['name'] != ""){//video file was uploaded
+			$fileformat = array('mp4');
+			$directory = "uploads/videos";
+			$upload = uploadFile("video",$fileformat,$directory);
+			$video_directory = $upload['picturename'];
+		}
+		
+		//insert values into database
+		$stmt=$mysqli->prepare("
+			INSERT INTO job_applications (division_id, firstname, lastname, gender, phone, location, email, nysc, cv, picture, video) 
+				VALUES 
+				(?,?,?,?,?,?,?,?,?,?,?);
+		");
+		$stmt->bind_param('sssssssssss', $divisions, $firstname, $lastname, $gender, $phone, $location, $email, $nysc, $cv_directory, $picture_directory, $video_directory);
+		$stmt->execute();
+		$stmt->close();
+		
+		
+		header('Location: job-application.php?success=true');
+		exit;
+	}  
    	else if($user_action == 'login')
 	{
 		

@@ -1,5 +1,7 @@
 <?php
 
+/*
+
 $mysqli = connect();
 
 foreach($_REQUEST as $key=>$value)
@@ -22,9 +24,11 @@ foreach($_REQUEST as $key=>$value)
 	$$key = $value;	
 }
 
+*/
+
 function connect(){
-    //$mysqli = new mysqli("localhost", "root", "server.cloud", "kingskid_database");
-    $mysqli = new mysqli("localhost", "staffdir_user01", "keBLyUJjr-2r", "staffdir_database");
+    $mysqli = new mysqli("localhost", "root", "server.cloud", "staffdirect");
+    //$mysqli = new mysqli("localhost", "staffdir_user01", "keBLyUJjr-2r", "staffdir_database");
 	if ($mysqli->connect_errno) {
 		die("Connection failed: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
         return false;
@@ -71,6 +75,26 @@ function useraccess($uid, $sid){
             return $row;
 }
 
+function getSectors(){
+    $mysqli=  connect();
+    $query="SELECT * FROM sectors ORDER BY id ASC";
+    
+    $stmt=$mysqli->prepare($query);
+    $stmt->execute();
+	
+	return $stmt->get_result();
+	
+	/*
+	$results = array();
+	
+	if($stmt->get_result()->num_rows > 0){
+		$results = $stmt->get_result();
+	}
+	
+	return $results;
+	*/
+}
+
 function getuser(){
     $mysqli=  connect();
     $query="SELECT * FROM adminupdate ORDER BY id DESC LIMIT 7";
@@ -102,7 +126,7 @@ function sendEmailNotice($to,$subject,$message){
 	$mail->Host = "localhost";  // specify main and backup server
 	$mail->SMTPAuth = true;     // turn on SMTP authentication
 	//password: info_pass_01
-	$mail->From = "careers.staffdirect@gmail.com";
+	$mail->From = "info@staffdirect.ng";
 	$mail->FromName = "Admin@StaffDirect";
 	$mail->AddAddress($to);
 	
@@ -111,7 +135,6 @@ function sendEmailNotice($to,$subject,$message){
 	$mail->IsHTML(true);                                  // set email format to HTML
 	$message = $message."
 	<br /><br />Best Regards,
-	<br />The Director
 	<br />Staff Direct
 	<br /> +234 811 084 0316 ";
 	
@@ -119,8 +142,8 @@ function sendEmailNotice($to,$subject,$message){
 	$mail->Body    = "
 <table align='center' style='width:70%;' cellpadding='10' cellspacing='10'>
    <tr>
-	  <td style='background: #3993ba;background: -moz-linear-gradient(top, #3993ba 0%, #3993ba 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3993ba), color-stop(100%,#3993ba));background: -webkit-linear-gradient(top, #3993ba 0%,#067ead 100%);background: -o-linear-gradient(top, #3993ba 0%,#3993ba 100%);background: -ms-linear-gradient(top, #3993ba 0%,#067ead 100%);background: linear-gradient(top, #067ead 0%,#3993ba 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#067ead', endColorstr='#3993ba',GradientType=0 );color:#FFFFFF;'>	  
-		<img src='img/logo2.png'> Staff Direct
+	  <td style='background:#ffffff;'>	  
+		<img src='http://staffdirect.ng/img/logo2.png' /> Staff Direct
 	  </td>
 	</tr>
 	<tr>
@@ -141,5 +164,131 @@ function sendEmailNotice($to,$subject,$message){
 	//echo $mail->Body; exit;
 	@$mail->Send();//send email	
 	
+}
+
+
+
+
+
+
+
+function uploadFile($varname,$fileformat,$directory){
+	$file_name = $_FILES[$varname]['name'];				 
+	$upload="false";
+	$uerr = checkUploadedFile($varname,$fileformat);
+	
+	if($uerr==""||$uerr==NULL||empty($uerr)){
+		
+		$file_name = date("Ymd").'_'.time().".".strtolower(getExtension($file_name));
+
+		$picturename = $directory."/" . $file_name;
+		
+		if(!is_dir($directory)){
+			if(!mkdir($directory, 0777, TRUE)){
+			}
+		} 
+		
+		move_uploaded_file ($_FILES[$varname]['tmp_name'], $picturename);
+		
+		/*
+		if($width==""&&$height==""){
+			
+		}else{			
+			$resizewidth = $width;
+			$resizeheight = $height;
+			uploadImageResize($resizewidth,$resizeheight,$picturename,$type);
+		}
+		*/
+		//echo $picturename;exit;			
+		$return['upload']="true";			 
+		$return['picturename']=$picturename;			 
+	}
+	return($return);
+}
+function checkUploadedFile($varname,$fileformat){
+ 	$uerr = NULL;
+    try {
+		
+        if (!array_key_exists($varname, $_FILES)) {
+			$uerr ="FILENOTFOUND";
+            throw new Exception('File not found in uploaded data');
+        }
+ 
+        $image = $_FILES[$varname];
+		$file_name = $_FILES[$varname]['name'];
+ 
+        // ensure the file was successfully uploaded
+        assertValidUpload($image['error']);
+ 
+        if (!is_uploaded_file($image['tmp_name'])) {
+			$uerr ="FILENOTUPLOADED";
+            throw new Exception('File is not an uploaded file');
+        }
+ 
+        $allowable = $fileformat;// CHECK FILE FORMAT	
+		$mytype = end(explode('.',strtolower($file_name)));//becos in_array is case sensitive
+ 		//echo "<pre>".print_r($allowable)."</pre>"; exit;
+        if (!in_array($mytype,$allowable)) {
+			$uerr ="FILEFORMATNOTALLOWED";
+            throw new Exception('Uploaded file format not supported');
+        }
+        if ($image['size'] > (5*1024*1024)) {
+			$uerr ="FILESIZETOOBIG";
+            throw new Exception('Maximum file upload of 5MB exceeded');
+        }
+
+    }
+    catch (Exception $ex) {
+        $_SESSION['imageerrors'][] = $ex->getMessage();
+		$_SESSION['alerterror'] = "true";
+    }
+	return $uerr;
+}
+function assertValidUpload($code)
+{
+	if ($code == UPLOAD_ERR_OK) {
+		return;
+	}
+
+	switch ($code) {
+		case UPLOAD_ERR_INI_SIZE:
+		case UPLOAD_ERR_FORM_SIZE:
+			$msg = 'Image is too large';
+			break;
+
+		case UPLOAD_ERR_PARTIAL:
+			$msg = 'Image was only partially uploaded';
+			break;
+
+		case UPLOAD_ERR_NO_FILE:
+			$msg = 'No image was uploaded';
+			break;
+
+		case UPLOAD_ERR_NO_TMP_DIR:
+			$msg = 'Upload folder not found';
+			break;
+
+		case UPLOAD_ERR_CANT_WRITE:
+			$msg = 'Unable to write uploaded file';
+			break;
+
+		case UPLOAD_ERR_EXTENSION:
+			$msg = 'Upload failed due to extension';
+			break;
+
+		default:
+			$msg = 'Unknown error';
+	}
+
+	throw new Exception($msg);
+}
+function getExtension($str) {
+
+	 $i = strrpos($str,".");
+	 if (!$i) { return ""; } 
+
+	 $l = strlen($str) - $i;
+	 $ext = substr($str,$i+1,$l);
+	 return $ext;
 }
 ?>
