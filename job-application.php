@@ -124,10 +124,6 @@
 
 				  
 				  <input type="hidden" name="action" value="job-application" />
-					
-					<div id="formLoader" style="text-align:center; display:none">
-						<img src="img/spinner.gif" alt="loading"/>
-					</div>
 						
 					<div>
 						<div class="send-btn">

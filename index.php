@@ -11,7 +11,7 @@
       <h2>Staff Direct</h2>
       <h3>Quality Recruitment Solutions</h3>
       <div>
-        <a href="#" class="btn-regular">Get Staff</a>
+        <a href="get-staff.php" class="btn-regular">Get Staff</a>
 	  </div>
 	  <div>
 		<a href="job-application.php" 

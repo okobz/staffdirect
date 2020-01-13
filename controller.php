@@ -101,8 +101,24 @@ Message: $message
 		
 		header('Location: job-application.php?success=true');
 		exit;
-	}  
-   	else if($user_action == 'login')
+	} 
+	else if($action == 'get-staff')
+	{
+		//insert values into database
+		$stmt=$mysqli->prepare("
+			INSERT INTO job_postings (organization, position, job_type, salary_budget, contact_person, phone_number) 
+				VALUES 
+				(?,?,?,?,?,?);
+		");
+		$stmt->bind_param('ssssss', $organization, $position, $job_type, $salary_budget, $contact_person, $phone_number);
+		$stmt->execute();
+		$stmt->close();
+		
+		
+		header('Location: get-staff.php?success=true');
+		exit;
+	}
+   	else if($action == 'login')
 	{
 		
 	}//end login
