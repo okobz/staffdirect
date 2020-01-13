@@ -452,7 +452,7 @@
         <div class="col-md-8 col-md-offset-2">
           <div class="cform" id="contact-form">
 			<?	if($_GET['success'] && $_GET['success'] == "true"){?>
-				<div class="show" id="sendmessage">Your message has been sent. Thank you!</div>
+				<div class="show" id="sendmessage">Your message has been sent. Please check your inbox or spam box for further notification. Thank you!</div>
 			<!--<div id="sendmessage">Your message has been sent. Thank you!</div>-->
 			<? }?>
             

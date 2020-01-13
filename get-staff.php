@@ -22,7 +22,7 @@
 			<div class="col-md-8 col-md-offset-2">
 			  <div class="cform" id="contact-form">
 				<?	if(@$_GET['success'] && @$_GET['success'] == "true"){?>
-					<div class="show" id="sendmessage">Your Application Submitted successfully. Thank you!</div>
+					<div class="show" id="sendmessage">Your Job Posting has been Submitted successfully. Thank you!</div>
 				<? }?>
 				
 				<div id="errormessage"></div>

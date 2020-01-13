@@ -114,6 +114,24 @@ Message: $message
 		$stmt->execute();
 		$stmt->close();
 		
+		//next send email to staff direct
+		$email = "staffdirectng@gmail.com";
+		$subject = "New Job Posting";
+		$message = "Hello, You have a New Job Posting
+<br/><br/>
+<b>Organization:</b> $organization
+<br/>
+<b>Position:</b> $position
+<br/>
+<b>Job Type:</b> $job_type
+<br/>
+<b>Salary Budget:</b> $salary_budget
+<br/>
+<b>Contact Person:</b> $contact_person
+<br/>
+<b>Phone Number:</b> $phone_number
+<br/>";
+		@sendEmailNotice($email,$subject,$message);
 		
 		header('Location: get-staff.php?success=true');
 		exit;
