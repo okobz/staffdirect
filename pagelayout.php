@@ -42,21 +42,60 @@
 				  <span class="fa fa-bars color-white"></span>
 				</button>
 				<div class="navbar-logo">
-				  <a href="index.php"><img data-0="width:155px;" data-300=" width:120px;" src="img/logo3.png" alt="Staff Direct Logo"></a>
+				  <a href=""><img data-0="width:155px;" data-300=" width:120px;" src="img/logo3.png" alt="Staff Direct Logo"></a>
 				</div>
 			  </div>
+			  <?php
+				$curPageName = substr($_SERVER["REQUEST_URI"],strrpos($_SERVER["REQUEST_URI"],"/")+1);
+			  ?>
 			  <div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav" data-0="margin-top:20px;" data-300="margin-top:5px;">
-				  <li class="active"><a href="index.php">Home</a></li>
-				  <li><a href="#section-about">About</a></li>
-				  <li><a href="#section-works">Portfolio</a></li>
-				  <li><a href="#section-contact">Contact</a></li>
+				<?	if(isset($_SESSION['sdsession'])){?>
+						<li class="active"><a href="logout.php">Logout</a></li>
+				<?	}else{?>
+						<li class="active"><a href="<?=$curPageName==""?"":"index.php"?>#intro">Home</a></li>
+						<li><a href="<?=$curPageName==""?"":"index.php"?>#section-about">About</a></li>
+						<li><a href="<?=$curPageName==""?"":"index.php"?>#section-works">Portfolio</a></li>
+						<li><a href="<?=$curPageName==""?"":"index.php"?>#section-contact">Contact</a></li>
+				<?	}?>
+				  
 				</ul>
 			  </div>
 			  <!--/.navbar-collapse -->
 			</div>
 		  </div>
 <?	}?>
+
+<? function callErrorMessage(){?>
+	<? if(isset($_SESSION['error']) && !empty($_SESSION['error']) && is_array($_SESSION['error'])){
+		//echo "isset";
+			if(isset($_SESSION['divborder'])){//on success of query
+				$class = "portlet-msg-success";				
+			}elseif(isset($_SESSION['alertstyle'])){// warning caution style
+				$class = "portlet-msg-alert";				
+			}elseif(isset($_SESSION['infostyle'])){// warning caution style
+				$class = "portlet-msg-info";				
+			}else{// regular error
+				$class = "portlet-msg-error";				
+			}
+		?>
+    <br />
+	        <div class="<?=$class?>">
+				<?php foreach ($_SESSION['error'] as $errors)  { ?>
+                        <?php echo ($errors) ?>
+                        <?php echo "<br>";?>
+                <?php } ?>
+            
+	            <? 
+					unset($_SESSION['error']);
+					if(isset($_SESSION['divborder'])){unset($_SESSION['divborder']);}
+					if(isset($_SESSION['alertstyle'])){unset($_SESSION['alertstyle']);}
+					if(isset($_SESSION['infostyle'])){unset($_SESSION['infostyle']);}
+				?>
+   		    </div>
+    <br />
+    <? }?>
+<? }?>
 
 <?	function getFooter($loadContactFormJs="true"){?>
 	  <section id="footer" class="section footer">
@@ -82,7 +121,13 @@
 		  </div>
 		  <div class="row align-center copyright">
 			<div class="col-sm-12">
-			  <p>Copyright &copy; Staff Direct | All rights reserved</p>
+			  <p>Copyright &copy; Staff Direct | All rights reserved | 
+				<?	if(isset($_SESSION['sdsession'])){?>
+						<a href="logout.php">Logout</a>
+				<?	}else{?>
+						<a href="login.php">Admin</a>
+				<?	}?>
+			  </p>
 			</div>
 			<!--
 			<a href="/webmail" target="_blank">Webmail</a>

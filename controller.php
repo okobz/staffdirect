@@ -138,12 +138,42 @@ Message: $message
 	}
    	else if($action == 'login')
 	{
+		$nextPage = "login.php";
+		$pass = sha1($password);
+		$query="SELECT * FROM adminuser WHERE userid = ? AND password = ? LIMIT 1";
+		$stmt=$mysqli->prepare($query);
+		$stmt->bind_param('ss', $userid, $pass);
+		$stmt->execute();
 		
+		$result = $stmt->get_result();
+		if($result->num_rows > 0){
+			$row = $result->fetch_assoc();
+			
+			@$u->id = $row['id'];
+			@$u->usernames = $row['usernames'];
+			@$u->userid = $row['userid'];
+			@$u->role = $row['role'];
+			
+			$_SESSION['sdsession']=$u;
+			
+			$nextPage = "cpanel.php";
+			//$_SESSION['divborder'] = "success";
+			//$_SESSION['error'][] = 'Your password updated successfully.';
+			
+		}else{
+			$_SESSION['error'][] = 'Invalid Login Details.';
+		}
+		
+		//$_SESSION['error'][] = '&nbsp;You are not authorized to update this password.';
+		//$_SESSION['alertstyle'] = "alert";
+		
+		
+		$stmt->close();
+			
+		header('Location: ' . $nextPage);//   
+		exit;
 	}//end login
-       //$myresponse = login();
-
-   	header('Location: ' . $myresponse);//   
-	exit;
+    
 }
 else
 {

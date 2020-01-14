@@ -744,7 +744,8 @@ nav#filter a {
 	z-index: 999;
 }
 
-#contact-form input[type=text], .contactForm textarea, .contactForm select {
+#contact-form input[type=text], .contactForm textarea, .contactForm select,
+	#contact-form input[type=password]{
 	width: 100%;
 	background: rgba(227, 231, 228, 1);
 	font-family: 'Open Sans', sans serif;
@@ -754,7 +755,8 @@ nav#filter a {
 	vertical-align: middle;
 	padding:0 10px;
 }
-#contact-form input[type=text]:focus, .contactForm textarea:focus, .contactForm select:focus {
+#contact-form input[type=text]:focus, .contactForm textarea:focus, .contactForm select:focus,
+	#contact-form input[type=password]:focus{
 	background: rgba(101, 106, 100, 1);
 	color: #eff1ef;
 	box-shadow: none;
@@ -764,7 +766,7 @@ nav#filter a {
 	-moz-transition: background 0.25 ease-in;
 	-webkit-transition: background 0.25 ease-in;
 }
-#contact-form input[type=text], .contactForm select {
+#contact-form input[type=text], .contactForm select, #contact-form input[type=password] {
 	height: 60px;
 	margin-bottom:30px;
 }
@@ -1041,6 +1043,54 @@ a.socialIcon:hover, .socialHoverClass {
 	border-bottom: 4px solid;
 }
 
+
+/* --------------Error Message Style ----------------*/
+.portlet-msg-error {
+
+    background: #FDD url(../img/error.png) no-repeat 6px 50%;
+    border: 1px solid red;
+    display: block;
+    font-weight: bold;
+    margin: 2px auto 14px;
+    padding: 6px 6px 6px 30px;
+    text-align: left;
+
+}
+.portlet-msg-success {
+
+    background: #F4FDEF url(../img/success.png) no-repeat 6px 50%;
+    border: 1px solid #ACDFA7;
+    color: #384F34;
+    display: block;
+    font-weight: bold;
+    margin: 2px auto 14px;
+    padding: 6px 6px 6px 30px;
+    text-align: left;
+
+}
+.portlet-msg-alert {
+
+    background: #FFC url(../img/alert.png) no-repeat 6px 20%;
+    border: 1px solid #FC0;
+    display: block;
+    font-weight: bold;
+    margin: 2px auto 14px;
+    padding: 6px 6px 6px 30px;
+    text-align: left;
+
+}
+.portlet-msg-info {
+
+    background: #DFF4FF url(../img/info.png) no-repeat 6px 50%;
+    border: 1px solid #A7CEDF;
+    color: #34404F;
+    display: block;
+    font-weight: bold;
+    margin: 2px auto 14px;
+    padding: 6px 6px 6px 30px;
+    text-align: left;
+
+}
 
 
 /* ========================================
