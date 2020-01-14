@@ -482,15 +482,25 @@
 				<div id="formLoader" style="text-align:center; display:none">
 					<img src="img/spinner.gif" alt="loading"/>
 				</div>
-					
+			
+			
+				<div class="col-md-offset-3 col-md-6">
+					<!--<div class="col-md-offset-3 col-md-6">-->
+					<div class="field message form-group" style="text-align:center">
+						<!-- Google reCAPTCHA box -->
+						<div class="g-recaptcha" data-sitekey="6LfaTs8UAAAAAMb3S5WkUMUtFmxmb_GwxEzJFCVs"></div>
+					</div>
+					<!--</div>-->
+				</div>
+				
+				
+				
 				<div>
 					<div class="send-btn">
 						<input type="submit" id="formSubmit" value="SEND MESSAGE" class="btn btn-theme">
 					</div>
 				</div>
-              
-			  
-
+            
             </form>
           </div>
         </div>

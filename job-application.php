@@ -21,9 +21,8 @@
 		  <div class="row">
 			<div class="col-md-8 col-md-offset-2">
 			  <div class="cform" id="contact-form">
-				<?	if(@$_GET['success'] && @$_GET['success'] == "true"){?>
-					<div class="show" id="sendmessage">Your Application Submitted successfully. Thank you!</div>
-				<? }?>
+			  
+				<?	callErrorMessage()	?>
 				
 				<div id="errormessage"></div>
 				<form action="controller.php" enctype="multipart/form-data" method="post" class="contactForm" data-parsley-validate="true" >
@@ -121,6 +120,15 @@
 					<div class="validation"></div>
 				  </div>
 				  
+				  
+				  <div class="col-md-offset-3 col-md-6">
+					<!--<div class="col-md-offset-3 col-md-6">-->
+					<div class="field message form-group" style="text-align:center">
+						<!-- Google reCAPTCHA box -->
+						<div class="g-recaptcha" data-sitekey="6LfaTs8UAAAAAMb3S5WkUMUtFmxmb_GwxEzJFCVs"></div>
+					</div>
+					<!--</div>-->
+				</div>
 
 				  
 				  <input type="hidden" name="action" value="job-application" />

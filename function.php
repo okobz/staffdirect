@@ -27,8 +27,8 @@ foreach($_REQUEST as $key=>$value)
 */
 
 function connect(){
-    $mysqli = new mysqli("localhost", "root", "server.cloud", "staffdirect");
-    //$mysqli = new mysqli("localhost", "staffdir_user01", "keBLyUJjr-2r", "staffdir_database");
+    //$mysqli = new mysqli("localhost", "root", "server.cloud", "staffdirect");
+    $mysqli = new mysqli("localhost", "staffdir_user01", "keBLyUJjr-2r", "staffdir_database");
 	if ($mysqli->connect_errno) {
 		die("Connection failed: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
         return false;
@@ -290,5 +290,29 @@ function getExtension($str) {
 	 $l = strlen($str) - $i;
 	 $ext = substr($str,$i+1,$l);
 	 return $ext;
+}
+
+function verifyreCAPTCHA($grecaptcharesponse){
+		
+	// Validate reCAPTCHA box 
+	$response = 3;
+	if(isset($grecaptcharesponse) && !empty($grecaptcharesponse)){ 
+		// Google reCAPTCHA API secret key 
+		$secretKey = '6LfaTs8UAAAAAJiBGJKBnE_-GhMeCfhk1kUDvi-j'; 
+		 
+		// Verify the reCAPTCHA response 
+		$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$grecaptcharesponse); 
+		 
+		// Decode json data 
+		$responseData = json_decode($verifyResponse); 
+		 
+		// If reCAPTCHA response is valid 
+		if($responseData->success){ 
+			$response = 1;
+		}else{
+			$response = 2;
+		}
+	}
+	return $response;
 }
 ?>

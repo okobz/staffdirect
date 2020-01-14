@@ -42,7 +42,7 @@
 				  <span class="fa fa-bars color-white"></span>
 				</button>
 				<div class="navbar-logo">
-				  <a href=""><img data-0="width:155px;" data-300=" width:120px;" src="img/logo3.png" alt="Staff Direct Logo"></a>
+				  <a href="index.php"><img data-0="width:155px;" data-300=" width:120px;" src="img/logo3.png" alt="Staff Direct Logo"></a>
 				</div>
 			  </div>
 			  <?php
@@ -163,6 +163,8 @@
 				<link href="parsley/parsley.css" rel="stylesheet">
 				<script src="parsley/parsley.min.js"></script>
 	  <?	}?>
+	  
+	  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 	  <!-- Template Main Javascript File -->
 	  <script src="js/main.js"></script>

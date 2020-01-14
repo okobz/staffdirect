@@ -29,13 +29,15 @@ foreach($_REQUEST as $key=>$value)
 if(isset($action)) 
 {
     $user_action = $action;
-    $myresponse = "login";
-	$_SESSION['error'] = array();
+    $_SESSION['error'] = array();
 
 	if($user_action == 'contact-us')
 	{
-	
-		//first send email to staff direct
+		
+		$response = verifyreCAPTCHA($_POST['g-recaptcha-response']);
+		
+		if($response == 1){
+			//first send email to staff direct
 		$to = "staffdirectng@gmail.com";
 		$subject = "New Message From Website";
 		$message = "Hello, You have 1 New Message.
@@ -58,9 +60,18 @@ Message: $message
 		
 		echo "OK";
 		exit;
+		}else{
+			echo "Google Verification Failed";
+		}
+	
+		
 	}//end contact us
 	else if($action == "job-application")
 	{
+		$response = verifyreCAPTCHA($_POST['g-recaptcha-response']);
+		
+		if($response == 1){
+			
 		//check if cv was uploaded
 		$cv_directory = "";
 		if($_FILES['cv']['name'] != ""){//cv file was uploaded
@@ -98,12 +109,21 @@ Message: $message
 		$stmt->execute();
 		$stmt->close();
 		
+		$_SESSION['divborder'] = "success";
+		$_SESSION['error'][] = 'Your Application Submitted successfully. Thank you!';
+
+		}else{
+			$_SESSION['error'][] = 'Google Verification Failed.';
+		}
 		
 		header('Location: job-application.php?success=true');
 		exit;
 	} 
 	else if($action == 'get-staff')
 	{
+		$response = verifyreCAPTCHA($_POST['g-recaptcha-response']);
+		
+		if($response == 1){
 		//insert values into database
 		$stmt=$mysqli->prepare("
 			INSERT INTO job_postings (organization, position, job_type, salary_budget, contact_person, phone_number) 
@@ -132,6 +152,13 @@ Message: $message
 <b>Phone Number:</b> $phone_number
 <br/>";
 		@sendEmailNotice($email,$subject,$message);
+		
+		$_SESSION['divborder'] = "success";
+		$_SESSION['error'][] = 'Your Job Posting has been Submitted successfully. Thank you!';
+
+		}else{
+			$_SESSION['error'][] = 'Google Verification Failed.';
+		}
 		
 		header('Location: get-staff.php?success=true');
 		exit;
