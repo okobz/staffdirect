@@ -20,6 +20,9 @@
 		  <link rel="stylesheet" href="css/style.css">
 		  <!-- skin -->
 		  <link rel="stylesheet" href="skin/default.css">
+		  
+		  <script src="js/jquery.js"></script>
+		  
 		  <!-- =======================================================
 			Theme Name: Vlava
 			Theme URL: https://bootstrapmade.com/vlava-free-bootstrap-one-page-template/
@@ -33,7 +36,7 @@
 	<body>
 <? } ?>
 
-<?	function getMenuLinks(){?>
+<?	function getMenuLinks($current=1){?>
 		<section id="header" class="appear"></section>
 		  <div class="navbar navbar-fixed-top" role="navigation" data-0="line-height:100px; height:100px; background-color:rgba(0,0,0,0.3);" data-300="line-height:60px; height:60px; background-color:rgba(5, 42, 62, 1);">
 			<div class="container">
@@ -51,7 +54,10 @@
 			  <div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav" data-0="margin-top:20px;" data-300="margin-top:5px;">
 				<?	if(isset($_SESSION['sdsession'])){?>
-						<li class="active"><a href="logout.php">Logout</a></li>
+						<li class="<?=$current==1?"active":""?>"><a href="cpanel.php">Cpanel</a></li>
+						<li class="<?=$current==2?"active":""?>"><a href="job-posting-list.php">Job Postings</a></li>
+						<li class="<?=$current==3?"active":""?>"><a href="job-applicants-list.php">Job Applications</a></li>
+						<li class=""><a href="logout.php">Logout</a></li>
 				<?	}else{?>
 						<li class="active"><a href="<?=$curPageName==""?"":"index.php"?>#intro">Home</a></li>
 						<li><a href="<?=$curPageName==""?"":"index.php"?>#section-about">About</a></li>
@@ -143,7 +149,6 @@
 
 	  <!-- Javascript Library Files -->
 	  <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-	  <script src="js/jquery.js"></script>
 	  <script src="js/jquery.easing.1.3.js"></script>
 	  <script src="js/bootstrap.min.js"></script>
 	  <script src="js/jquery.isotope.min.js"></script>

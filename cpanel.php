@@ -4,7 +4,7 @@
 	
 	getPageHeader("Staff Direct");
 	closePageHeader();
-	getMenuLinks();
+	getMenuLinks(1);
 ?>
 
 	<!--

@@ -75,6 +75,39 @@ function useraccess($uid, $sid){
             return $row;
 }
 
+function system_date($date,$mode=1){
+	if(trim($date)!=""){
+		if($mode==1){
+			return date("jS-M-Y", strtotime($date));
+		}else{
+			return date("jS-M-Y h:i:s A", strtotime($date));
+		}
+	}
+}
+
+function getJobPostings(){
+    $mysqli=  connect();
+    $query="SELECT * FROM job_postings ORDER BY id DESC";
+    
+    $stmt=$mysqli->prepare($query);
+    $stmt->execute();
+	
+	return $stmt->get_result();	
+}
+
+function getJobApplications(){
+    $mysqli=  connect();
+    $query="SELECT a.*, b.caption as division , c.caption as sector
+			FROM job_applications a, divisions b, sectors c
+			WHERE a.division_id = b.id AND b.sectors_id = c.id
+			ORDER BY id DESC";
+    
+    $stmt=$mysqli->prepare($query);
+    $stmt->execute();
+	
+	return $stmt->get_result();		
+}
+
 function getSectors(){
     $mysqli=  connect();
     $query="SELECT * FROM sectors ORDER BY id ASC";

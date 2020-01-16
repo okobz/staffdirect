@@ -69,7 +69,7 @@ Message: $message
 	else if($action == "job-application")
 	{
 		$response = verifyreCAPTCHA($_POST['g-recaptcha-response']);
-		
+		$datetime = date("Y-m-d H:i:s");
 		if($response == 1){
 			
 		//check if cv was uploaded
@@ -101,11 +101,11 @@ Message: $message
 		
 		//insert values into database
 		$stmt=$mysqli->prepare("
-			INSERT INTO job_applications (division_id, firstname, lastname, gender, phone, location, email, nysc, cv, picture, video) 
+			INSERT INTO job_applications (division_id, firstname, lastname, gender, phone, location, email, nysc, cv, picture, video, record_date) 
 				VALUES 
-				(?,?,?,?,?,?,?,?,?,?,?);
+				(?,?,?,?,?,?,?,?,?,?,?,?);
 		");
-		$stmt->bind_param('sssssssssss', $divisions, $firstname, $lastname, $gender, $phone, $location, $email, $nysc, $cv_directory, $picture_directory, $video_directory);
+		$stmt->bind_param('ssssssssssss', $divisions, $firstname, $lastname, $gender, $phone, $location, $email, $nysc, $cv_directory, $picture_directory, $video_directory, $datetime);
 		$stmt->execute();
 		$stmt->close();
 		
@@ -122,15 +122,15 @@ Message: $message
 	else if($action == 'get-staff')
 	{
 		$response = verifyreCAPTCHA($_POST['g-recaptcha-response']);
-		
+		$datetime = date("Y-m-d H:i:s");
 		if($response == 1){
 		//insert values into database
 		$stmt=$mysqli->prepare("
-			INSERT INTO job_postings (organization, position, job_type, salary_budget, contact_person, phone_number) 
+			INSERT INTO job_postings (organization, position, job_type, salary_budget, contact_person, phone_number, record_date) 
 				VALUES 
-				(?,?,?,?,?,?);
+				(?,?,?,?,?,?,?);
 		");
-		$stmt->bind_param('ssssss', $organization, $position, $job_type, $salary_budget, $contact_person, $phone_number);
+		$stmt->bind_param('sssssss', $organization, $position, $job_type, $salary_budget, $contact_person, $phone_number, $datetime);
 		$stmt->execute();
 		$stmt->close();
 		
@@ -200,6 +200,54 @@ Message: $message
 		header('Location: ' . $nextPage);//   
 		exit;
 	}//end login
+	else if($action == 'download-excel-posting')
+	{
+		$csv_output = '';
+
+		$csv_output .= "Organization,,, Position,,, Job Type,,, Salary Budget,,, Contact Person,,, Phone Number,,, Date,,, ";
+		$csv_output .= "\n";	
+		
+		$results = getJobPostings();
+		if($results->num_rows > 0){
+			$i=0;
+			while($c = $results->fetch_assoc()) {
+				$csv_output .= $c['organization'].",,, ".$c['position'].",,, ".$c['job_type'].",,, ".$c['salary_budget'].",,, ".$c['contact_person'].",,, ".$c['phone_number'].",,, ".system_date($c['record_date']).",,, ";			
+				$csv_output .= "\n";
+			}
+		}
+		
+		$filename = "Staff_Direct_Job_Posting".rand(0,20000).'_'.time();
+
+		header("Content-type: application/vnd.ms-excel");
+		header("Content-disposition: csv" . date("Y-m-d") . ".csv");
+		header( "Content-disposition: filename=".$filename.".csv");
+		print $csv_output;
+		exit;
+	}
+	else if($action == 'download-excel-applicants')
+	{
+		$csv_output = '';
+
+		$csv_output .= "Section,,, Division,,, Lastname,,, Firstname,,, Gender,,, Phone ,,, Location,,, Email,,, NYSC,,, Date,,, ";
+		$csv_output .= "\n";	
+		
+		$results = getJobApplications();
+		if($results->num_rows > 0){
+			$i=0;
+			while($c = $results->fetch_assoc()) {
+				$csv_output .= $c['sector'].",,, ".$c['division'].",,, ".$c['lastname'].",,, ".$c['firstname'].",,, ".$c['gender'].",,, ".$c['phone'].",,, ".$c['location'].",,, ".$c['email'].",,, ".$c['nysc'].",,, ".system_date($c['record_date']).",,, ";			
+				$csv_output .= "\n";
+			}
+		}
+		
+		$filename = "Staff_Direct_Job_Applicants".rand(0,20000).'_'.time();
+
+		header("Content-type: application/vnd.ms-excel");
+		header("Content-disposition: csv" . date("Y-m-d") . ".csv");
+		header( "Content-disposition: filename=".$filename.".csv");
+		print $csv_output;
+		exit;
+	}
     
 }
 else
