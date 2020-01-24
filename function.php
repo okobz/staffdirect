@@ -27,8 +27,8 @@ foreach($_REQUEST as $key=>$value)
 */
 
 function connect(){
-    $mysqli = new mysqli("localhost", "root", "server.cloud", "staffdirect");
-    //$mysqli = new mysqli("localhost", "staffdir_user01", "keBLyUJjr-2r", "staffdir_database");
+    //$mysqli = new mysqli("localhost", "root", "server.cloud", "staffdirect");
+    $mysqli = new mysqli("localhost", "staffdir_user01", "keBLyUJjr-2r", "staffdir_database");
 	if ($mysqli->connect_errno) {
 		die("Connection failed: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
         return false;
