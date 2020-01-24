@@ -22,6 +22,12 @@
 
 <?
 
+echo date("jS-M-Y", 1579540320);
+
+//echo strtotime(date("2020-01-05"));
+
+exit;
+
 $resultarray=array("status"=>"success", "message"=>"Student details retrieved", "StudentFirstName"=>"Ifeanyi", "StudentLastName"=>"Ofoefule chris", "StudentAdmissionNumber"=>"2005/127922", "StudentPhoto"=>"https://salemcare.en-trance.com/assets/images/1/1567848990Picture1.jpg", "StudentCurrentStatus"=>"Active", "StudentClass"=>"Pri 5A", "Guardians"=>"Mr Ofoefule", "TotalGuardians"=>"90");
 $output =json_encode($resultarray, JSON_UNESCAPED_SLASHES);
     echo $output;

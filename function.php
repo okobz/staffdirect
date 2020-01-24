@@ -27,13 +27,19 @@ foreach($_REQUEST as $key=>$value)
 */
 
 function connect(){
-    //$mysqli = new mysqli("localhost", "root", "server.cloud", "staffdirect");
-    $mysqli = new mysqli("localhost", "staffdir_user01", "keBLyUJjr-2r", "staffdir_database");
+    $mysqli = new mysqli("localhost", "root", "server.cloud", "staffdirect");
+    //$mysqli = new mysqli("localhost", "staffdir_user01", "keBLyUJjr-2r", "staffdir_database");
 	if ($mysqli->connect_errno) {
 		die("Connection failed: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
         return false;
 	}
     return $mysqli;
+}
+function mustLogin(){
+	if(!isset($_SESSION['sdsession'])){
+		header("Location: login.php?login=false");
+		exit;
+	}
 }
 function fetchAssocStatement($stmt)
 {
@@ -126,6 +132,18 @@ function getSectors(){
 	
 	return $results;
 	*/
+}
+
+function getDivisions(){
+    $mysqli=  connect();
+    $query="SELECT a.*, b.caption as sector 
+		FROM divisions a, sectors b WHERE a.sectors_id = b.id ORDER BY id ASC";
+    
+    $stmt=$mysqli->prepare($query);
+    $stmt->execute();
+	
+	return $stmt->get_result();
+
 }
 
 function getuser(){

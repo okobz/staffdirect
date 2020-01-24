@@ -55,6 +55,8 @@
 				<ul class="nav navbar-nav" data-0="margin-top:20px;" data-300="margin-top:5px;">
 				<?	if(isset($_SESSION['sdsession'])){?>
 						<li class="<?=$current==1?"active":""?>"><a href="cpanel.php">Cpanel</a></li>
+						<li class="<?=$current==4?"active":""?>"><a href="sectors.php">Sectors</a></li>
+						<li class="<?=$current==5?"active":""?>"><a href="divisions.php">Divisions</a></li>
 						<li class="<?=$current==2?"active":""?>"><a href="job-posting-list.php">Job Postings</a></li>
 						<li class="<?=$current==3?"active":""?>"><a href="job-applicants-list.php">Job Applications</a></li>
 						<li class=""><a href="logout.php">Logout</a></li>

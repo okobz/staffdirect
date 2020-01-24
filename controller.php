@@ -66,6 +66,70 @@ Message: $message
 	
 		
 	}//end contact us
+	else if($action == "new-sector")
+	{	
+		$countcaption = count($caption);
+		$info="";
+		if($countcaption > 0){
+			$insert;
+			for($e=0;$e<$countcaption;$e++){
+				$stmt=$mysqli->prepare("SELECT * FROM sectors WHERE caption = ? LIMIT 1");
+				$stmt->bind_param('s', $caption[$e]);
+				$stmt->execute();
+				if($stmt->get_result()->num_rows == 0){
+					$insert=$mysqli->prepare("INSERT INTO sectors (caption, description) VALUES (?,?)");
+					$insert->bind_param('ss', $caption[$e], $description[$e]);
+					$insert->execute();
+				}
+			}
+			if($insert){
+				$insert->close();
+				$_SESSION['divborder'] = "success";
+				$_SESSION['error'][] = 'Records added successfully.';			
+			}else{
+				$_SESSION['error'][] = 'Some records could not be added.';
+				$_SESSION['alertstyle'] = "alert";				
+			}
+		}else{
+			$_SESSION['error'][] = 'Please enter at least one record.';
+			$_SESSION['alertstyle'] = "alert";
+		
+		}		
+		header('Location: sectors.php');
+		exit;
+	}
+	else if($action == "new-division")
+	{
+		$countcaption = count($caption);
+		$info="";
+		if($countcaption > 0){
+			$insert;
+			for($e=0;$e<$countcaption;$e++){
+				$stmt=$mysqli->prepare("SELECT * FROM divisions WHERE caption = ? AND sectors_id = ? LIMIT 1");
+				$stmt->bind_param('si', $caption[$e],$sectors[$e]);
+				$stmt->execute();
+				if($stmt->get_result()->num_rows == 0){
+					$insert=$mysqli->prepare("INSERT INTO divisions (caption, description, sectors_id) VALUES (?,?,?)");
+					$insert->bind_param('ssi', $caption[$e], $description[$e], $sectors[$e]);
+					$insert->execute();
+				}
+			}
+			if($insert){
+				$insert->close();
+				$_SESSION['divborder'] = "success";
+				$_SESSION['error'][] = 'Records added successfully.';			
+			}else{
+				$_SESSION['error'][] = 'Some records could not be added.';
+				$_SESSION['alertstyle'] = "alert";				
+			}		
+		}else{
+			$_SESSION['error'][] = 'Please enter at least one record.';
+			$_SESSION['alertstyle'] = "alert";
+		
+		}		
+		header('Location: divisions.php');
+		exit;
+	}
 	else if($action == "job-application")
 	{
 		$response = verifyreCAPTCHA($_POST['g-recaptcha-response']);

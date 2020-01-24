@@ -1,7 +1,7 @@
 <?php
 	require_once("function.php");
+	mustLogin();
 	require_once("pagelayout.php");
-	
 	getPageHeader("Job Postings");
 	closePageHeader();
 	getMenuLinks(2);

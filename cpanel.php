@@ -29,6 +29,8 @@
 				
 				<h2><a href="job-posting-list.php">List All Job Postings</a></h2>
 				<h2><a href="job-applicants-list.php">List All Job Applicants</a></h2>
+				<h2><a href="sectors.php">Manage Sectors</a></h2>
+				<h2><a href="divisions.php">Manage Divisions</a></h2>
 				<h2><a href="logout.php">Logout</a></h2>
 				
 			  </div>
